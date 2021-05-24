@@ -1,5 +1,5 @@
 import { removeEmitHelper } from "typescript"
-import express from "express"
+import * as express from "express"
 
 
 var router = express.Router()

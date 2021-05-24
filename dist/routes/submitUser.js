@@ -35,13 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
+var express = require("express");
 var mysql = require("mysql2/promise");
-var router = express_1.default.Router();
+var router = express.Router();
 router.post("/", function (req, res) {
     var user = req.body.user;
     var password = req.body.password;
@@ -56,10 +53,10 @@ router.post("/", function (req, res) {
     (function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, mysql.createConnection(dbConfig)];
+                case 0: return [4, mysql.createConnection(dbConfig)];
                 case 1:
                     _a.sent();
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); })().then(function (results) {
@@ -72,3 +69,4 @@ router.post("/", function (req, res) {
     });
 });
 module.exports = router;
+//# sourceMappingURL=submitUser.js.map

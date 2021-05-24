@@ -1,4 +1,4 @@
-import express from "express"
+import * as express from "express"
 var router = express.Router()
 var mysql = require("mysql2/promise")
 

@@ -35,12 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var router = express_1.default.Router();
+var express = require("express");
+var router = express.Router();
 var mysql = require("mysql2/promise");
 router.post("/", function (req, res) {
     var sendData = req.body;
@@ -54,16 +51,16 @@ router.post("/", function (req, res) {
             var connection;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, mysql.createConnection(dbConfig)];
+                    case 0: return [4, mysql.createConnection(dbConfig)];
                     case 1:
                         connection = _a.sent();
-                        return [4 /*yield*/, connection.query(sql).then(function (data) {
+                        return [4, connection.query(sql).then(function (data) {
                                 console.log(data);
                                 res.json({ "results": data, "error": [{}] });
                             })];
                     case 2:
                         _a.sent();
-                        return [2 /*return*/];
+                        return [2];
                 }
             });
         }); })().catch(function (e) {
@@ -77,3 +74,4 @@ router.post("/", function (req, res) {
     }
 });
 module.exports = router;
+//# sourceMappingURL=showTableColumn.js.map

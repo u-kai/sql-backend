@@ -40,12 +40,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var router = express_1.default.Router();
+var express = require("express");
+var router = express.Router();
 var mysql = require("mysql2/promise");
 var removeLastComma = function (str) {
     return str.substr(0, str.length - 1);
@@ -86,33 +83,32 @@ router.post("/", function (req, res) {
                     _i = 0;
                     _c.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 7];
+                    if (!(_i < _a.length)) return [3, 7];
                     sqlIndex = _a[_i];
                     _c.label = 2;
                 case 2:
                     _c.trys.push([2, 5, , 6]);
-                    return [4 /*yield*/, mysql.createConnection(dbConfig)];
+                    return [4, mysql.createConnection(dbConfig)];
                 case 3:
                     connection = _c.sent();
-                    return [4 /*yield*/, connection.query(sqls[sqlIndex]).then(function (data) { resultList = __spreadArray(__spreadArray([], resultList), [data]); })
-                        // values=""
-                    ];
+                    return [4, connection.query(sqls[sqlIndex]).then(function (data) { resultList = __spreadArray(__spreadArray([], resultList), [data]); })];
                 case 4:
                     _c.sent();
-                    return [3 /*break*/, 6];
+                    return [3, 6];
                 case 5:
                     e_1 = _c.sent();
                     console.log("errorrrrrrrrr", e_1);
                     errorList = __spreadArray(__spreadArray([], errorList), [e_1]);
-                    return [3 /*break*/, 6];
+                    return [3, 6];
                 case 6:
                     _i++;
-                    return [3 /*break*/, 1];
+                    return [3, 1];
                 case 7:
                     res.json({ "results": resultList, "error": errorList });
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); })();
 });
 module.exports = router;
+//# sourceMappingURL=copyToInsert.js.map

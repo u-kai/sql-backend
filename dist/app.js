@@ -1,24 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
+var express = require("express");
+var path = require("path");
 var cors = require("cors");
-// var express = require('express');
-var app = express_1.default();
-var session = require("express-session");
-var sessionMiddleware = session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: false,
-        secure: false,
-        maxage: 1000 * 60 * 30
-    }
-});
-app.use(sessionMiddleware);
+var app = express();
+app.use(express.static(path.join(__dirname, "../build")));
 app.use(cors());
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
@@ -31,7 +17,7 @@ var copyToCreate = require("./routes/copyToCreate");
 var copyToInsert = require("./routes/copyToInsert");
 var showTableColumn = require("./routes/showTableColumn");
 var server = app.listen(8000, function () {
-    console.log("start");
+    console.log("start server");
 });
 app.use("/showTableColumn", showTableColumn);
 app.use("/editerhandler", editerhandler);
@@ -39,6 +25,7 @@ app.use("/submitUser", submitUser);
 app.use("/copyToCreate", copyToCreate);
 app.use("/copyToInsert", copyToInsert);
 app.get("/", function (req, res) {
-    res.sendFile("../../build/index.html");
+    res.sendFile("/index.html");
 });
 module.exports = app;
+//# sourceMappingURL=app.js.map

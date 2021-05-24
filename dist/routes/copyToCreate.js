@@ -40,12 +40,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var router = express_1.default.Router();
+var express = require("express");
+var router = express.Router();
 var mysql = require("mysql2/promise");
 var removeLastComma = function (str) {
     return str.substr(0, str.length - 1);
@@ -79,27 +76,28 @@ router.post("/", function (req, res) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, 4, 5]);
-                    return [4 /*yield*/, mysql.createConnection(dbConfig)];
+                    return [4, mysql.createConnection(dbConfig)];
                 case 1:
                     connection = _a.sent();
-                    return [4 /*yield*/, connection.query(sql).then(function (data) {
+                    return [4, connection.query(sql).then(function (data) {
                             resultList = __spreadArray(__spreadArray([], resultList), [data]);
                             console.log(data);
                         })];
                 case 2:
                     _a.sent();
-                    return [3 /*break*/, 5];
+                    return [3, 5];
                 case 3:
                     e_1 = _a.sent();
                     console.log(e_1);
                     errorList = __spreadArray(__spreadArray([], errorList), [e_1.toString()]);
-                    return [3 /*break*/, 5];
+                    return [3, 5];
                 case 4:
                     res.json({ "results": resultList, "error": errorList });
-                    return [7 /*endfinally*/];
-                case 5: return [2 /*return*/];
+                    return [7];
+                case 5: return [2];
             }
         });
     }); })();
 });
 module.exports = router;
+//# sourceMappingURL=copyToCreate.js.map

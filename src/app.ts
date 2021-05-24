@@ -1,21 +1,22 @@
-import express from "express"
+import * as express from "express"
+import * as path from "path"
 const cors = require("cors")
-// var express = require('express');
+
 const app = express();
+app.use(express.static(path.join(__dirname,"../build")))
+// var session = require("express-session")
+// var sessionMiddleware = session({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie:{
+//     httpOnly: false,
+//     secure: false,
+//     maxage: 1000 * 60 * 30
+//   }});
 
-var session = require("express-session")
-var sessionMiddleware = session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie:{
-    httpOnly: false,
-    secure: false,
-    maxage: 1000 * 60 * 30
-  }});
 
-
-app.use(sessionMiddleware);
+// app.use(sessionMiddleware);
 app.use(cors())
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({
@@ -28,7 +29,7 @@ var copyToCreate = require("./routes/copyToCreate")
 var copyToInsert = require("./routes/copyToInsert")
 var showTableColumn = require("./routes/showTableColumn")
 var server = app.listen(8000, function(){
-    console.log("start")
+    console.log("start server")
 });
 
 app.use("/showTableColumn",showTableColumn)
@@ -40,7 +41,7 @@ app.use("/copyToInsert",copyToInsert)
 
 
 app.get("/",(req:express.Request,res:express.Response)=>{
-    res.sendFile("../../build/index.html")
+    res.sendFile("/index.html")
 })
 
 module.exports = app

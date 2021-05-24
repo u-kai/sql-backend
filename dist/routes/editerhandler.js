@@ -35,12 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var router = express_1.default.Router();
+var express = require("express");
+var router = express.Router();
 var mysql = require("mysql2/promise");
 router.post("/", function (req, res) {
     var dbConfig = req.body.dbInfo;
@@ -48,9 +45,6 @@ router.post("/", function (req, res) {
     var errorList = [];
     var selectList = [];
     var otherList = [];
-    // type Data = {
-    //     :{[key:string]:string}[][]|{[key:string]:string}[]
-    // }
     var selectRe = /.*select.*/i;
     var executeQuery = function () { return __awaiter(void 0, void 0, void 0, function () {
         var connection, _loop_1, _a, _b, _i, i, e_1;
@@ -58,13 +52,13 @@ router.post("/", function (req, res) {
             switch (_c.label) {
                 case 0:
                     _c.trys.push([0, 6, , 7]);
-                    return [4 /*yield*/, mysql.createConnection(dbConfig)];
+                    return [4, mysql.createConnection(dbConfig)];
                 case 1:
                     connection = _c.sent();
                     _loop_1 = function (i) {
                         return __generator(this, function (_d) {
                             switch (_d.label) {
-                                case 0: return [4 /*yield*/, connection.query(querys[i]).then(function (data) {
+                                case 0: return [4, connection.query(querys[i]).then(function (data) {
                                         if (selectRe.test(querys[i])) {
                                             selectList.push(data[0]);
                                         }
@@ -84,7 +78,7 @@ router.post("/", function (req, res) {
                                     })];
                                 case 1:
                                     _d.sent();
-                                    return [2 /*return*/];
+                                    return [2];
                             }
                         });
                     };
@@ -94,27 +88,28 @@ router.post("/", function (req, res) {
                     _i = 0;
                     _c.label = 2;
                 case 2:
-                    if (!(_i < _a.length)) return [3 /*break*/, 5];
+                    if (!(_i < _a.length)) return [3, 5];
                     i = _a[_i];
-                    return [5 /*yield**/, _loop_1(i)];
+                    return [5, _loop_1(i)];
                 case 3:
                     _c.sent();
                     _c.label = 4;
                 case 4:
                     _i++;
-                    return [3 /*break*/, 2];
+                    return [3, 2];
                 case 5:
                     res.json({ "select": selectList, "other": otherList, "error": errorList });
-                    return [3 /*break*/, 7];
+                    return [3, 7];
                 case 6:
                     e_1 = _c.sent();
                     console.log(e_1);
                     res.json({ "select": [[]], "other": otherList, "error": [e_1] });
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [3, 7];
+                case 7: return [2];
             }
         });
     }); };
     executeQuery();
 });
 module.exports = router;
+//# sourceMappingURL=editerhandler.js.map
