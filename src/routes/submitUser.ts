@@ -2,6 +2,13 @@ import * as express from "express"
 var mysql = require("mysql2/promise")
 var router = express.Router()
 
+type ConnectionError = {
+    code:string
+    errno:number
+    sqlState:string
+}
+
+type ConnectionResult = undefined
 router.post("/",(req:express.Request,res:express.Response) =>{
       const user:string = req.body.user
       const password:string = req.body.password
@@ -15,11 +22,10 @@ router.post("/",(req:express.Request,res:express.Response) =>{
       };
     (async()=>{
         await mysql.createConnection(dbConfig)
-    })().then((results:any)=>{
-        console.log(results)
+    })().then((results:ConnectionResult)=>{
         res.json({"results":results})})
-    .catch((e)=>{
-        console.log(e)
+    .catch((e:ConnectionError)=>{
+        console.log(e.sqlState)
         res.json({"results":e})})
   }
 )

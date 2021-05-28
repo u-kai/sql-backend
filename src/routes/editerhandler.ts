@@ -3,34 +3,44 @@ var router = express.Router()
 var mysql = require("mysql2/promise")
 
 router.post("/",(req:express.Request,res:express.Response)=>{
-    const dbConfig = req.body.dbInfo
+    const dbConfig :{
+        user:string
+        password:string
+        host:string
+        database:string
+    } = req.body.dbInfo
+    type SelectResult = {[key:string]:string|number|null}[][]
+    type OtherResult  = {
+        fieldCount:number
+        affectedRows:number
+        insertId:number
+        info:string
+        serverStatus: number
+        warningStatus:number
+        changedRows: number
+    } []
+    type SQLError = {code:string,sqlState:string,errno:number,sqlMessage:string}
     const querys:string[] = req.body.querys
-    let errorList:string[] = []
-    let selectList:{[key:string]:string}[][] = []
-    let otherList:{[key:string]:string}[][] = []
-    // type Data = {
-    //     :{[key:string]:string}[][]|{[key:string]:string}[]
-    // }
-    const selectRe:RegExp = /.*select.*/i
+    let errorList:SQLError[] = []
+    let selectList:SelectResult = []
+    let otherList:OtherResult = []
+
+    const isSelect = (data:SelectResult|OtherResult):data is SelectResult => {
+        return (data as SelectResult) != undefined
+    }
     const executeQuery = async()=>{
         try{
             const connection = await mysql.createConnection(dbConfig)
             for(let i in querys){
-                await connection.query(querys[i]).then((data:any)=>{
-                    if(selectRe.test(querys[i])){
-                        selectList.push(data[0])
+                await connection.query(querys[i]).then((data:SelectResult|OtherResult)=>{
+                    if(isSelect(data)){
+                        selectList = [...selectList,data[0]]
                     }else{
-                        if(data[0].length === undefined){
-                            otherList.push([data[0]])
-                        }else{
-                            otherList.push(data[0])
-                            console.log(data[0])
-                        }  
-                    }  
+                        otherList = [...otherList,data[0]]
+                    }
                 })
-                .catch((e:string)=>{
-                    console.log(e)
-                    errorList.push(e)
+                .catch((e:SQLError)=>{
+                    errorList = [...errorList,e]
                 })
                 
             }

@@ -1,10 +1,21 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var express = require("express");
 var path = require("path");
 var cors = require("cors");
 var app = express();
 app.use(express.static(path.join(__dirname, "../build")));
+// var session = require("express-session")
+// var sessionMiddleware = session({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie:{
+//     httpOnly: false,
+//     secure: false,
+//     maxage: 1000 * 60 * 30
+//   }});
+// app.use(sessionMiddleware);
 app.use(cors());
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
@@ -31,4 +42,3 @@ app.get("/executers", function (req, res) {
     res.sendFile("/index.html");
 });
 module.exports = app;
-//# sourceMappingURL=app.js.map

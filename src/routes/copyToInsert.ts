@@ -1,23 +1,14 @@
-import { removeEmitHelper } from "typescript"
+import {DBInfo} from "../types/DBInfo"
 import * as express from "express"
 
 
 var router = express.Router()
 var mysql = require("mysql2/promise")
 
-
-
-
-
 type PostData = { 
     tableName:string
     multiLineCells:{[key:string]:string}[]
-    dbInfo:{
-        user:string
-        host:string
-        password:string
-        database:string
-    }
+    dbInfo:DBInfo
 }
 const removeLastComma = (str:string):string=>{
     return str.substr(0,str.length-1)

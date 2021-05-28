@@ -1,14 +1,8 @@
 import * as express from "express"
+import {DBInfo} from "../types/DBInfo"
 var router = express.Router()
 var mysql = require("mysql2/promise")
 
-type CreateTableData = {
-    tableName:string
-    columns:string[]
-    dataTypes:string[]
-    isPrimary:string[]
-    options:string[]
-}
 
 type CreateTableDatatest = {
     tableName:string
@@ -19,12 +13,7 @@ type CreateTableDatatest = {
         Option:string,
         IsNull:string
     }]
-    dbInfo:{
-        user:string
-        host:string
-        password:string
-        database:string
-    }
+    dbInfo:DBInfo
 }
 
 const removeLastComma = (str:string):string=>{

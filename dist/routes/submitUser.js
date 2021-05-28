@@ -60,11 +60,10 @@ router.post("/", function (req, res) {
             }
         });
     }); })().then(function (results) {
-        console.log(results);
         res.json({ "results": results });
     })
         .catch(function (e) {
-        console.log(e);
+        console.log(e.sqlState);
         res.json({ "results": e });
     });
 });

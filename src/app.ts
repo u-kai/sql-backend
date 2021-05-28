@@ -44,5 +44,9 @@ app.get("/",(req:express.Request,res:express.Response)=>{
     res.sendFile("/index.html")
 })
 
+app.get("/executers",(req:express.Request,res:express.Response)=>{
+    res.sendFile("/index.html")
+})
+
 module.exports = app
 

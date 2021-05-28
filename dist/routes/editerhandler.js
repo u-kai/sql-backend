@@ -35,6 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var router = express.Router();
@@ -45,9 +50,11 @@ router.post("/", function (req, res) {
     var errorList = [];
     var selectList = [];
     var otherList = [];
-    var selectRe = /.*select.*/i;
+    var isSelect = function (data) {
+        return data != undefined;
+    };
     var executeQuery = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var connection, _loop_1, _a, _b, _i, i, e_1;
+        var connection, _a, _b, _i, i, e_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -55,33 +62,6 @@ router.post("/", function (req, res) {
                     return [4, mysql.createConnection(dbConfig)];
                 case 1:
                     connection = _c.sent();
-                    _loop_1 = function (i) {
-                        return __generator(this, function (_d) {
-                            switch (_d.label) {
-                                case 0: return [4, connection.query(querys[i]).then(function (data) {
-                                        if (selectRe.test(querys[i])) {
-                                            selectList.push(data[0]);
-                                        }
-                                        else {
-                                            if (data[0].length === undefined) {
-                                                otherList.push([data[0]]);
-                                            }
-                                            else {
-                                                otherList.push(data[0]);
-                                                console.log(data[0]);
-                                            }
-                                        }
-                                    })
-                                        .catch(function (e) {
-                                        console.log(e);
-                                        errorList.push(e);
-                                    })];
-                                case 1:
-                                    _d.sent();
-                                    return [2];
-                            }
-                        });
-                    };
                     _a = [];
                     for (_b in querys)
                         _a.push(_b);
@@ -90,7 +70,17 @@ router.post("/", function (req, res) {
                 case 2:
                     if (!(_i < _a.length)) return [3, 5];
                     i = _a[_i];
-                    return [5, _loop_1(i)];
+                    return [4, connection.query(querys[i]).then(function (data) {
+                            if (isSelect(data)) {
+                                selectList = __spreadArray(__spreadArray([], selectList), [data[0]]);
+                            }
+                            else {
+                                otherList = __spreadArray(__spreadArray([], otherList), [data[0]]);
+                            }
+                        })
+                            .catch(function (e) {
+                            errorList = __spreadArray(__spreadArray([], errorList), [e]);
+                        })];
                 case 3:
                     _c.sent();
                     _c.label = 4;

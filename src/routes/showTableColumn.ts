@@ -1,15 +1,11 @@
 import * as express from "express"
+import {DBInfo} from "../types/DBInfo"
 var router = express.Router()
 var mysql = require("mysql2/promise")
 
 type PostData = { 
     tableName:string
-    dbInfo:{
-        user:string
-        host:string
-        password:string
-        database:string
-    }
+    dbInfo:DBInfo
 }
 
 router.post("/",(req:express.Request,res:express.Response)=>{
